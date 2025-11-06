@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TotTrackr - Simple Baby Tracking for Exhausted Parents</title>
+    <meta name="description" content="Track your baby's feeding, sleep, and diapers with one hand. Beautiful, simple baby tracking designed for sleep-deprived parents.">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .tagline {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        .app-badges {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .badge {
+            height: 60px;
+            transition: transform 0.3s;
+        }
+
+        .badge:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Phone Mockup */
+        .phone-mockup {
+            max-width: 300px;
+            margin: 50px auto -50px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .phone-mockup img {
+            width: 100%;
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 20px;
+            background: white;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: 800;
+            margin-bottom: 60px;
+            color: #333;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 16px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Problem/Solution Section */
+        .problem-solution {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .ps-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .ps-box {
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .ps-box h3 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .ps-box p {
+            font-size: 1.1em;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .problem {
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .solution {
+            border-left: 5px solid #51cf66;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 20px;
+            background: white;
+        }
+
+        .pricing-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .pricing-card {
+            padding: 50px 30px;
+            background: #f9f9f9;
+            border-radius: 20px;
+            transition: transform 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: relative;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .price {
+            font-size: 3em;
+            font-weight: 800;
+            margin: 20px 0;
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin: 30px 0;
+        }
+
+        .pricing-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .featured .pricing-features li {
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .pricing-features li::before {
+            content: '✓ ';
+            color: #51cf66;
+            font-weight: 800;
+            margin-right: 10px;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 3em;
+            font-weight: 800;
+            margin-bottom: 30px;
+        }
+
+        .cta p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 20px;
+            background: #1a1a1a;
+            color: #999;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .tagline {
+                font-size: 1.2em;
+            }
+
+            .ps-container {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .cta h2 {
+                font-size: 2em;
+            }
+        }
+
+        /* Coming Soon Badge */
+        .coming-soon {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="logo">🍼</div>
+            <h1>TotTrackr</h1>
+            <p class="tagline">Baby tracking designed for one hand<br>and zero brain power</p>
+            
+            <div class="app-badges">
+                <!-- Apple App Store Badge -->
+                <a href="#" target="_blank">
+                    <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1715990400" 
+                         alt="Download on the App Store" 
+                         class="badge">
+                </a>
+                
+                <!-- Google Play Badge -->
+                <a href="#" target="_blank">
+                    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
+                         alt="Get it on Google Play" 
+                         class="badge" 
+                         style="height: 70px;">
+                </a>
+            </div>
+        </div>
+
+        <!-- Phone Mockup -->
+        <div class="phone-mockup">
+            <img src="https://via.placeholder.com/300x600/667eea/ffffff?text=Screenshot+Here" 
+                 alt="TotTrackr App Screenshot">
+        </div>
+    </section>
+
+    <!-- Problem/Solution Section -->
+    <section class="problem-solution">
+        <div class="ps-container">
+            <div class="ps-box problem">
+                <h3>😵 The Problem</h3>
+                <p>You're holding your baby with one hand, trying to remember if it's been 2 or 3 hours since the last feeding, fumbling through complicated baby tracking apps with 47 features you'll never use.</p>
+                <p style="margin-top: 20px;">And don't even get started on trying to coordinate with your partner who's using a different app on their phone.</p>
+            </div>
+            <div class="ps-box solution">
+                <h3>✨ The Solution</h3>
+                <p>TotTrackr gives you exactly what you need: one-tap tracking for feeding, sleep, and diapers. That's it. No clutter, no confusion, no PhD required.</p>
+                <p style="margin-top: 20px;">Plus, sync instantly with your partner so you both know what's happening—even at 3am when words are hard.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-container">
+            <h2 class="section-title">Built for Sleep-Deprived Parents</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">👆</div>
+                    <h3 class="feature-title">One-Tap Tracking</h3>
+                    <p class="feature-description">Log feedings, diapers, and sleep with a single tap. No forms, no menus, no thinking required. Perfect when you're holding your baby with one hand.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⏱️</div>
+                    <h3 class="feature-title">Smart Sleep Timer</h3>
+                    <p class="feature-description">Start when baby sleeps, stop when they wake. The timer runs even when your phone is locked. Automatic duration calculation—no math at 3am.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Daily Summaries</h3>
+                    <p class="feature-description">See everything at a glance: last feeding time, total feedings today, sleep duration, and diaper changes. No scrolling through lists.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3 class="feature-title">Partner Sync</h3>
+                    <p class="feature-description">Share data instantly with your partner or caregiver. Real-time updates so everyone knows what's happening. No more "Did you feed the baby?"</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌙</div>
+                    <h3 class="feature-title">Dark Mode</h3>
+                    <p class="feature-description">Automatically follows your phone's theme. Easy on your eyes during those middle-of-the-night feedings when the world is asleep.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📤</div>
+                    <h3 class="feature-title">Export Reports</h3>
+                    <p class="feature-description">Share tracking data with your pediatrician in seconds. CSV for spreadsheets or readable text format. Your data, your way.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing">
+        <div class="pricing-container">
+            <h2 class="section-title">Simple, Honest Pricing</h2>
+            <p style="font-size: 1.2em; color: #666; margin-bottom: 20px;">
+                Core tracking is free forever. Upgrade for sync and premium features.
+            </p>
+
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h3>Free Forever</h3>
+                    <div class="price">$0</div>
+                    <ul class="pricing-features">
+                        <li>Track feeding, sleep & diapers</li>
+                        <li>Daily summaries</li>
+                        <li>Last 30 days of history</li>
+                        <li>Export your data</li>
+                        <li>Dark mode</li>
+                        <li>One baby profile</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card featured">
+                    <span class="featured-badge">BEST VALUE</span>
+                    <h3>Premium</h3>
+                    <div class="price">$19.99</div>
+                    <p style="margin-bottom: 20px;">One-time payment • Lifetime access</p>
+                    <ul class="pricing-features">
+                        <li>Everything in Free</li>
+                        <li>Multi-device sync</li>
+                        <li>Unlimited history</li>
+                        <li>Multiple baby profiles</li>
+                        <li>Advanced exports</li>
+                        <li>All future premium features</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2>Ready to stop forgetting?</h2>
+        <p>Join thousands of parents who are tracking smarter, not harder.</p>
+        
+        <div class="app-badges">
+            <a href="#" target="_blank">
+                <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83&amp;releaseDate=1715990400" 
+                     alt="Download on the App Store" 
+                     class="badge">
+            </a>
+            
+            <a href="#" target="_blank">
+                <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
+                     alt="Get it on Google Play" 
+                     class="badge" 
+                     style="height: 70px;">
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+            <a href="/support">Support</a>
+            <a href="mailto:support@tottrackr.com">Contact</a>
+        </div>
+        <p>© 2025 TotTrackr • Made with 💙 for sleep-deprived parents</p>
+        <p style="margin-top: 10px; font-size: 0.9em;">Created by DahVio Studios</p>
+    </footer>
+
+</body>
+</html>
