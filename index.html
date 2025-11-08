@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TotTrackr - Simple Baby Tracking for Exhausted Parents</title>
     <meta name="description" content="Track your baby's feeding, sleep, and diapers with one hand. Beautiful, simple baby tracking designed for sleep-deprived parents.">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QHLHJ2R6XX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-QHLHJ2R6XX');
+  
+  // Track UTM parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('utm_source')) {
+    gtag('event', 'share_visit', {
+      'source': urlParams.get('utm_source'),
+      'medium': urlParams.get('utm_medium'),
+      'campaign': urlParams.get('utm_campaign')
+    });
+  }
+</script>
     
     <style>
         * {
@@ -517,7 +534,40 @@
         <p>© 2025 TotTrackr • Made with 💙 for sleep-deprived parents</p>
         <p style="margin-top: 10px; font-size: 0.9em;">Created by DahVio Studios</p>
     </footer>
+    <script>
+  // Parse UTM parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const utmSource = urlParams.get('utm_source');
+  const utmMedium = urlParams.get('utm_medium');
+  
+  // Store UTM for analytics
+  if (utmSource) {
+    sessionStorage.setItem('utm_source', utmSource);
+    sessionStorage.setItem('utm_medium', utmMedium || 'direct');
+  }
+
+  // Auto-redirect mobile users to app store
+  function redirectToStore() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isIOS = /iphone|ipad|ipod/.test(userAgent);
+    const isAndroid = /android/.test(userAgent);
+    
+    if (isIOS) {
+      // Replace with real iOS App Store URL
+      window.location.href = 'https://apps.apple.com/app/tottrackr/id[YOUR_APP_ID]';
+    } else if (isAndroid) {
+      // Replace with real Google Play URL
+      window.location.href = 'https://play.google.com/store/apps/details?id=com.tottrackr';
+    }
+  }
+
+  // Auto-redirect after 2 seconds (gives time to see landing page)
+  if (utmSource === 'qr_code' || utmSource === 'app_share') {
+    setTimeout(redirectToStore, 2000);
+  }
+</script>
 
 </body>
 
 </html>
+
