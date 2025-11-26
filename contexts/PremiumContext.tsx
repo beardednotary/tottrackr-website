@@ -21,18 +21,27 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
     loadPremiumStatus();
   }, []);
 
-  const loadPremiumStatus = async () => {
-    try {
-      const stored = await AsyncStorage.getItem(PREMIUM_STORAGE_KEY);
-      const premium = stored === 'true';
-      setIsPremiumState(premium);
-    } catch (error) {
-      console.error('[Premium] Failed to load status:', error);
+const loadPremiumStatus = async () => {
+  try {
+    // PRODUCTION: Always start with premium OFF
+    // Users must purchase through RevenueCat
+    if (!__DEV__) {
       setIsPremiumState(false);
-    } finally {
       setIsLoading(false);
+      return;
     }
-  };
+    
+    // DEV ONLY: Allow toggle for testing
+    const stored = await AsyncStorage.getItem(PREMIUM_STORAGE_KEY);
+    const premium = stored === 'true';
+    setIsPremiumState(premium);
+  } catch (error) {
+    console.error('[Premium] Failed to load status:', error);
+    setIsPremiumState(false);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const setPremium = async (value: boolean) => {
     try {

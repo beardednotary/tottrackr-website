@@ -610,16 +610,6 @@ const setWeightUnits = async (sys: 'imperial' | 'metric') => {
   <ShareTotTrackr />
 </View>
 
-{__DEV__ && (
-  <TouchableOpacity
-    style={{ backgroundColor: 'red', padding: 16, margin: 20 }}
-    onPress={() => setPremium(!isPremium)}
-  >
-    <Text style={{ color: '#fff', textAlign: 'center' }}>
-      DEV: Premium {isPremium ? 'ON ✓' : 'OFF'}
-    </Text>
-  </TouchableOpacity>
-)}
         </ScrollView>
       </LinearGradient>
     </View>
