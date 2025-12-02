@@ -102,6 +102,7 @@ export default function TrackingScreen() {
   const buttonSlide = useRef(new Animated.Value(0)).current;
   const sleepTimerInterval = useRef<ReturnType<typeof setInterval> | null>(null);
   const breastTimerInterval = useRef<ReturnType<typeof setInterval> | null>(null);
+  const lastDetectionTime = useRef(0);
 
   // Load preferences
   useEffect(() => {
@@ -224,21 +225,29 @@ export default function TrackingScreen() {
     }
   };
 
-  const detectHandPreference = (x: number) => {
-    const newPreference: HandPreference = x < DETECTION_THRESHOLD ? 'left' : 'right';
-    if (newPreference !== handPreference) {
-      setHandPreference(newPreference);
-      updatePreferences({ handPreference: newPreference });
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+const detectHandPreference = (x: number) => {
+  // Debounce: Only detect once every 500ms
+  const now = Date.now();
+  if (now - lastDetectionTime.current < 500) return;
+  lastDetectionTime.current = now;
 
-      Animated.spring(buttonSlide, {
-        toValue: newPreference === 'left' ? -1 : 1,
-        useNativeDriver: true,
-        tension: 50,
-        friction: 7,
-      }).start();
+  const newPreference: HandPreference = x < DETECTION_THRESHOLD ? 'left' : 'right';
+  if (newPreference !== handPreference) {
+    setHandPreference(newPreference);
+    updatePreferences({ handPreference: newPreference });
+    
+    if (prefs.hapticFeedback) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
-  };
+
+    Animated.spring(buttonSlide, {
+      toValue: newPreference === 'left' ? -1 : 1,
+      useNativeDriver: true,
+      tension: 50,
+      friction: 7,
+    }).start();
+  }
+};
 
   const showToast = (message: string) => {
     setLastAction(message);
