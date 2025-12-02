@@ -45,7 +45,7 @@ export class PurchaseService {
       }
 
       this.isConfigured = true;
-      console.log('[Purchases] SDK configured');
+      // console.log('[Purchases] SDK configured');
     } catch (error) {
       console.error('[Purchases] Configuration failed:', error);
     }
@@ -59,7 +59,7 @@ export class PurchaseService {
       const customerInfo = await Purchases.getCustomerInfo();
       const hasPremium = customerInfo.entitlements.active[ENTITLEMENT_ID] !== undefined;
       
-      console.log('[Purchases] Premium status:', hasPremium);
+      // console.log('[Purchases] Premium status:', hasPremium);
       return hasPremium;
     } catch (error) {
       console.error('[Purchases] isPremium check failed:', error);
@@ -75,11 +75,11 @@ export class PurchaseService {
       const offerings = await Purchases.getOfferings();
       
       if (offerings.current) {
-        console.log('[Purchases] Current offering:', offerings.current.identifier);
+        // console.log('[Purchases] Current offering:', offerings.current.identifier);
         return offerings.current;
       }
       
-      console.log('[Purchases] No current offering found');
+      // console.log('[Purchases] No current offering found');
       return null;
     } catch (error) {
       console.error('[Purchases] getOfferings failed:', error);
@@ -118,7 +118,7 @@ export class PurchaseService {
         };
       }
 
-      console.log('[Purchases] Purchasing:', lifetimePackage.product.identifier);
+      // console.log('[Purchases] Purchasing:', lifetimePackage.product.identifier);
 
       // Make purchase
       const { customerInfo } = await Purchases.purchasePackage(lifetimePackage);
@@ -127,7 +127,7 @@ export class PurchaseService {
       const hasPremium = customerInfo.entitlements.active[ENTITLEMENT_ID] !== undefined;
 
       if (hasPremium) {
-        console.log('[Purchases] Purchase successful!');
+        // console.log('[Purchases] Purchase successful!');
         return { success: true, customerInfo };
       } else {
         return {
@@ -162,13 +162,13 @@ export class PurchaseService {
     error?: string;
   }> {
     try {
-      console.log('[Purchases] Restoring purchases...');
+      // console.log('[Purchases] Restoring purchases...');
       const customerInfo = await Purchases.restorePurchases();
 
       const hasPremium = customerInfo.entitlements.active[ENTITLEMENT_ID] !== undefined;
 
       if (hasPremium) {
-        console.log('[Purchases] Restore successful!');
+        // console.log('[Purchases] Restore successful!');
         return { success: true, customerInfo };
       } else {
         return {

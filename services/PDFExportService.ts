@@ -34,7 +34,7 @@ export class PDFExportService {
         });
         return true;
       } else {
-        console.log('[PDF] Sharing not available, saved to:', uri);
+        // console.log('[PDF] Sharing not available, saved to:', uri);
         return false;
       }
     } catch (error) {

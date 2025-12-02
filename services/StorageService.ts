@@ -512,7 +512,7 @@ static async migrateOldEntriesToFirstProfile(): Promise<void> {
       
       if (migrated) {
         await AsyncStorage.setItem(STORAGE_KEYS.ENTRIES, JSON.stringify(updatedEntries));
-        console.log('[StorageService] Migrated entries to first profile');
+        // console.log('[StorageService] Migrated entries to first profile');
       }
     }
     
@@ -532,7 +532,7 @@ static async migrateOldEntriesToFirstProfile(): Promise<void> {
       
       if (migrated) {
         await AsyncStorage.setItem(STORAGE_KEYS.WEIGHTS, JSON.stringify(updatedWeights));
-        console.log('[StorageService] Migrated weights to first profile');
+        // console.log('[StorageService] Migrated weights to first profile');
       }
     }
     

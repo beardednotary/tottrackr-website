@@ -24,7 +24,7 @@ export class DataExportService {
     format: ExportFormat = 'csv'
   ): Promise<void> {
     try {
-      console.log(`[Export] Starting ${format} export for ${startDate} to ${endDate}`);
+      // console.log(`[Export] Starting ${format} export for ${startDate} to ${endDate}`);
 
       const baby = await StorageService.getBabyProfile();
       if (!baby) {
@@ -57,7 +57,7 @@ export class DataExportService {
         title: title,
       });
 
-      console.log('[Export] Export successful');
+      // console.log('[Export] Export successful');
     } catch (error) {
       console.error('[Export] Error:', error);
       Alert.alert('Export Failed', 'Unable to export data. Please try again.');

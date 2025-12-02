@@ -54,7 +54,7 @@ export function ShareTotTrackr() {
 
       if (result.action === Share.sharedAction) {
         // Track successful share (optional - add analytics here)
-        console.log('[Share] User shared successfully');
+        // console.log('[Share] User shared successfully');
       }
     } catch (error) {
       Alert.alert('Error', 'Unable to share. Please try again.');

@@ -62,10 +62,10 @@ class SyncService {
         updatedAt: Timestamp.now(),
       });
 
-      console.log('[Firebase] Baby profile created:', babyId);
+      // console.log('[Firebase] Baby profile created:', babyId);
       return babyId;
     } catch (error) {
-      console.error('[Firebase] Error creating baby profile:', error);
+      // console.error('[Firebase] Error creating baby profile:', error);
       throw error;
     }
   }
@@ -77,9 +77,9 @@ class SyncService {
         ...entry,
         syncedAt: Timestamp.now(),
       });
-      console.log('[Firebase] Entry synced:', entry.id);
+      // console.log('[Firebase] Entry synced:', entry.id);
     } catch (error) {
-      console.error('[Firebase] Error syncing entry:', error);
+      // console.error('[Firebase] Error syncing entry:', error);
       throw error;
     }
   }
@@ -101,10 +101,10 @@ class SyncService {
         } as Entry);
       });
 
-      console.log('[Firebase] Retrieved', entries.length, 'entries');
+      // console.log('[Firebase] Retrieved', entries.length, 'entries');
       return entries;
     } catch (error) {
-      console.error('[Firebase] Error getting entries:', error);
+      // console.error('[Firebase] Error getting entries:', error);
       throw error;
     }
   }
@@ -128,10 +128,10 @@ class SyncService {
         } as Entry);
       });
       
-      console.log('[Firebase] Real-time update:', entries.length, 'entries');
+      // console.log('[Firebase] Real-time update:', entries.length, 'entries');
       onUpdate(entries);
     }, (error) => {
-      console.error('[Firebase] Listener error:', error);
+      // console.error('[Firebase] Listener error:', error);
     });
 
     return this.unsubscribe;
@@ -142,7 +142,7 @@ class SyncService {
     if (this.unsubscribe) {
       this.unsubscribe();
       this.unsubscribe = null;
-      console.log('[Firebase] Stopped listening');
+      // console.log('[Firebase] Stopped listening');
     }
   }
 
@@ -150,9 +150,9 @@ class SyncService {
   async deleteEntry(babyId: string, entryId: string): Promise<void> {
     try {
       await deleteDoc(doc(db, 'babies', babyId, 'entries', entryId));
-      console.log('[Firebase] Entry deleted:', entryId);
+      // console.log('[Firebase] Entry deleted:', entryId);
     } catch (error) {
-      console.error('[Firebase] Error deleting entry:', error);
+      // console.error('[Firebase] Error deleting entry:', error);
       throw error;
     }
   }
@@ -174,12 +174,12 @@ class SyncService {
   // Sync all local entries to Firebase
   async syncAllEntries(entries: Entry[], babyId: string): Promise<void> {
     try {
-      console.log('[Firebase] Syncing', entries.length, 'entries...');
+      // console.log('[Firebase] Syncing', entries.length, 'entries...');
       
       const syncPromises = entries.map(entry => this.syncEntry(entry, babyId));
       await Promise.all(syncPromises);
       
-      console.log('[Firebase] All entries synced successfully');
+      // console.log('[Firebase] All entries synced successfully');
     } catch (error) {
       console.error('[Firebase] Error syncing all entries:', error);
       throw error;
