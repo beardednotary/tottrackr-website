@@ -39,12 +39,6 @@ export default function RootLayout() {
   // }, []);
   
 
-// Add this TEMPORARILY at the top of the component:
-useEffect(() => {
-  // TESTING: Force onboarding to show
-  AsyncStorage.removeItem('tottrackr_baby_profile');
-}, []);
-
   const checkOnboarding = async () => {
     try {
       const hasOnboarded = await AsyncStorage.getItem('hasOnboarded');
