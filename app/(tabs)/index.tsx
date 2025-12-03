@@ -432,19 +432,17 @@ const saveDiaperEntry = async (diaperType: DiaperType) => {
   const dailyTarget = getDailyTarget();
 
   return (
-    <View
-      style={[styles.container, { backgroundColor: colors.background }]}
-      onStartShouldSetResponder={() => true}
-      onResponderGrant={(e) => detectHandPreference(e.nativeEvent.pageX)}
-    >
+ <View style={[styles.container, { backgroundColor: colors.background }]}>
       <LinearGradient
-        colors={
-          colorScheme === 'dark'
-            ? ['rgba(107, 127, 215, 0.15)', 'rgba(107, 127, 215, 0.05)', 'rgba(0, 0, 0, 0)']
-            : ['rgba(107, 127, 215, 0.08)', 'rgba(107, 127, 215, 0.03)', 'rgba(0, 0, 0, 0)']
-        }
-        style={[styles.gradientBackground, { paddingTop: insets.top }]}
-      >
+  colors={
+    colorScheme === 'dark'
+      ? ['rgba(107, 127, 215, 0.15)', 'rgba(107, 127, 215, 0.05)', 'rgba(0, 0, 0, 0)']
+      : ['rgba(107, 127, 215, 0.08)', 'rgba(107, 127, 215, 0.03)', 'rgba(0, 0, 0, 0)']
+  }
+  style={[styles.gradientBackground, { paddingTop: insets.top }]}
+  onStartShouldSetResponder={() => true}
+  onResponderGrant={(e) => detectHandPreference(e.nativeEvent.pageX)}
+>
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
