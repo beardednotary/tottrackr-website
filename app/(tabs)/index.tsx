@@ -41,9 +41,6 @@ import {
 import { FirstTimeTutorial } from '@/components/FirstTimeTutorial';
 import { RatingModal, shouldShowRatingPrompt, incrementActionCount } from '@/components/RatingModal';
 
-const { width } = Dimensions.get('window');
-const DETECTION_THRESHOLD = width * 0.4;
-
 // Age-based feeding targets (in oz per day)
 const FEEDING_TARGETS: Record<string, number> = {
   '0-1': 3,
@@ -99,10 +96,8 @@ export default function TrackingScreen() {
 
   // Refs
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const buttonSlide = useRef(new Animated.Value(0)).current;
   const sleepTimerInterval = useRef<ReturnType<typeof setInterval> | null>(null);
   const breastTimerInterval = useRef<ReturnType<typeof setInterval> | null>(null);
-  const lastDetectionTime = useRef(0);
 
   // Load preferences
   useEffect(() => {
@@ -187,84 +182,60 @@ export default function TrackingScreen() {
     };
   }, [activeBreast]);
 
-  const loadData = async () => {
-    await StorageService.migrateOldEntriesToFirstProfile();
+const loadData = async () => {
+  await StorageService.migrateOldEntriesToFirstProfile();
 
-    const preferences = await loadPreferences();
-    setHandPreference(preferences.handPreference);
+  const preferences = await loadPreferences();
+  setHandPreference(preferences.handPreference);
 
-    const profile = await StorageService.getBabyProfile();
-    setBabyProfile(profile);
+  const profile = await StorageService.getBabyProfile();
+  setBabyProfile(profile);
 
-    const today = new Date();
-    const summary = await StorageService.getDailySummary(today);
-    setDailySummary(summary);
+  const today = new Date();
+  const summary = await StorageService.getDailySummary(today);
+  setDailySummary(summary);
 
-    // Calculate total oz from today's feedings
-    const todayStr = today.toISOString().split('T')[0];
-    const entries = await StorageService.getEntriesByDate(new Date(todayStr));
-    const oz = entries
-      .filter((e) => e.type === 'feeding' && e.amount)
-      .reduce((sum, e) => sum + (e.amount || 0), 0);
-    setTotalOz(oz);
+  // Calculate total oz from today's feedings
+  const todayStr = today.toISOString().split('T')[0];
+  const entries = await StorageService.getEntriesByDate(new Date(todayStr));
+  const oz = entries
+    .filter((e) => e.type === 'feeding' && e.amount)
+    .reduce((sum, e) => sum + (e.amount || 0), 0);
+  setTotalOz(oz);
 
-    // Get active sleep
-    const sleep = await StorageService.getActiveSleep();
-    setActiveSleep(sleep);
-    if (sleep?.isActive) {
-      const duration = Math.floor((Date.now() - sleep.startTime) / 60000);
-      setSleepDuration(duration);
-    }
+  // Get active sleep
+  const sleep = await StorageService.getActiveSleep();
+  setActiveSleep(sleep);
+  if (sleep?.isActive) {
+    const duration = Math.floor((Date.now() - sleep.startTime) / 60000);
+    setSleepDuration(duration);
+  }
 
-    // Get active breast feeding
-    const breast = await StorageService.getActiveBreast();
-    setActiveBreast(breast);
-    if (breast?.isActive) {
-      const duration = Math.floor((Date.now() - breast.startTime) / 60000);
-      setBreastDuration(duration);
-    }
-  };
-
-const detectHandPreference = (x: number) => {
-  // Debounce: Only detect once every 500ms
-  const now = Date.now();
-  if (now - lastDetectionTime.current < 500) return;
-  lastDetectionTime.current = now;
-
-  const newPreference: HandPreference = x < DETECTION_THRESHOLD ? 'left' : 'right';
-  if (newPreference !== handPreference) {
-    setHandPreference(newPreference);
-    updatePreferences({ handPreference: newPreference });
-    
-    if (prefs.hapticFeedback) {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    }
-
-    Animated.spring(buttonSlide, {
-      toValue: newPreference === 'left' ? -1 : 1,
-      useNativeDriver: true,
-      tension: 50,
-      friction: 7,
-    }).start();
+  // Get active breast feeding
+  const breast = await StorageService.getActiveBreast();
+  setActiveBreast(breast);
+  if (breast?.isActive) {
+    const duration = Math.floor((Date.now() - breast.startTime) / 60000);
+    setBreastDuration(duration);
   }
 };
 
-  const showToast = (message: string) => {
-    setLastAction(message);
-    Animated.sequence([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      Animated.delay(2000),
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-    ]).start(() => setLastAction(''));
-  };
+const showToast = (message: string) => {
+  setLastAction(message);
+  Animated.sequence([
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }),
+    Animated.delay(2000),
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }),
+  ]).start(() => setLastAction(''));
+};
 
   const formatVolume = (oz: number): string => {
     if (prefs.units.volume === 'imperial') {
@@ -440,9 +411,7 @@ const saveDiaperEntry = async (diaperType: DiaperType) => {
       : ['rgba(107, 127, 215, 0.08)', 'rgba(107, 127, 215, 0.03)', 'rgba(0, 0, 0, 0)']
   }
   style={[styles.gradientBackground, { paddingTop: insets.top }]}
-  onStartShouldSetResponder={() => true}
-  onResponderGrant={(e) => detectHandPreference(e.nativeEvent.pageX)}
->
+  >
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>

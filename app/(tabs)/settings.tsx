@@ -471,6 +471,64 @@ const setWeightUnits = async (sys: 'imperial' | 'metric') => {
             </GlassCard>
           </View>
 
+          <View style={styles.section}>
+  <Text style={[styles.sectionTitle, { color: colors.text }]}>
+    Button Position
+  </Text>
+  
+  <GlassCard style={styles.card}>
+    <View style={styles.preferenceRow}>
+      <View style={styles.preferenceInfo}>
+        <Text style={[styles.preferenceLabel, { color: colors.text }]}>
+          Preferred Hand
+        </Text>
+        <Text style={[styles.preferenceDescription, { color: colors.textSecondary }]}>
+          Choose which side to display action buttons
+        </Text>
+      </View>
+      <View style={styles.handButtons}>
+        <TouchableOpacity
+          style={[
+            styles.handButton,
+            prefs.handPreference === 'left' && styles.handButtonActive,
+            { borderColor: colors.border }
+          ]}
+          onPress={() => {
+            updatePreferences({ handPreference: 'left' });
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }}
+        >
+          <Text style={[
+            styles.handButtonText,
+            prefs.handPreference === 'left' && { color: colors.tint }
+          ]}>
+            Left
+          </Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          style={[
+            styles.handButton,
+            prefs.handPreference === 'right' && styles.handButtonActive,
+            { borderColor: colors.border }
+          ]}
+          onPress={() => {
+            updatePreferences({ handPreference: 'right' });
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }}
+        >
+          <Text style={[
+            styles.handButtonText,
+            prefs.handPreference === 'right' && { color: colors.tint }
+          ]}>
+            Right
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </GlassCard>
+</View>
+
           {/* Premium Section */}
 <View style={styles.section}>
   <Text style={[styles.sectionTitle, { color: colors.text }]}>Upgrade</Text>
@@ -792,4 +850,39 @@ exportNote: {
   textAlign: 'center',
   fontStyle: 'italic',
 },
+handButtons: {
+  flexDirection: 'row',
+  gap: 8,
+},
+handButton: {
+  paddingHorizontal: 20,
+  paddingVertical: 8,
+  borderRadius: 8,
+  borderWidth: 1.5,
+},
+handButtonActive: {
+  backgroundColor: 'rgba(107, 127, 215, 0.1)',
+},
+handButtonText: {
+  fontSize: 15,
+  fontWeight: '600',
+},
+preferenceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  preferenceInfo: {
+    flex: 1,
+    marginRight: 12,
+  },
+  preferenceLabel: {
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  preferenceDescription: {
+    fontSize: 13,
+    lineHeight: 18,
+  },
 });
