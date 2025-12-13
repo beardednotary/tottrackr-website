@@ -488,42 +488,50 @@ const setWeightUnits = async (sys: 'imperial' | 'metric') => {
       </View>
       <View style={styles.handButtons}>
         <TouchableOpacity
-          style={[
-            styles.handButton,
-            prefs.handPreference === 'left' && styles.handButtonActive,
-            { borderColor: colors.border }
-          ]}
-          onPress={() => {
-            updatePreferences({ handPreference: 'left' });
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          }}
-        >
-          <Text style={[
-            styles.handButtonText,
-            prefs.handPreference === 'left' && { color: colors.tint }
-          ]}>
-            Left
-          </Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity
-          style={[
-            styles.handButton,
-            prefs.handPreference === 'right' && styles.handButtonActive,
-            { borderColor: colors.border }
-          ]}
-          onPress={() => {
-            updatePreferences({ handPreference: 'right' });
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          }}
-        >
-          <Text style={[
-            styles.handButtonText,
-            prefs.handPreference === 'right' && { color: colors.tint }
-          ]}>
-            Right
-          </Text>
-        </TouchableOpacity>
+  style={[
+    styles.handButton,
+    { 
+      borderColor: prefs.handPreference === 'left' ? colors.tint : colors.border,
+      backgroundColor: prefs.handPreference === 'left' ? colors.tint : 'transparent',
+    }
+  ]}
+  onPress={async () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    await updatePreferences({ handPreference: 'left' });
+    const updated = await loadPreferences();
+    setPrefs(updated); // ← Force immediate update
+  }}
+>
+  <Text style={[
+    styles.handButtonText,
+    { color: prefs.handPreference === 'left' ? '#FFFFFF' : colors.text }
+  ]}>
+    Left
+  </Text>
+</TouchableOpacity>
+
+<TouchableOpacity
+  style={[
+    styles.handButton,
+    { 
+      borderColor: prefs.handPreference === 'right' ? colors.tint : colors.border,
+      backgroundColor: prefs.handPreference === 'right' ? colors.tint : 'transparent',
+    }
+  ]}
+  onPress={async () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    await updatePreferences({ handPreference: 'right' });
+    const updated = await loadPreferences();
+    setPrefs(updated); // ← Force immediate update
+  }}
+>
+  <Text style={[
+    styles.handButtonText,
+    { color: prefs.handPreference === 'right' ? '#FFFFFF' : colors.text }
+  ]}>
+    Right
+  </Text>
+</TouchableOpacity>
       </View>
     </View>
   </GlassCard>
@@ -857,15 +865,16 @@ handButtons: {
 handButton: {
   paddingHorizontal: 20,
   paddingVertical: 8,
-  borderRadius: 8,
-  borderWidth: 1.5,
+  borderRadius: 10,
+  borderWidth: 1,
+  backgroundColor: 'transparent',
 },
 handButtonActive: {
-  backgroundColor: 'rgba(107, 127, 215, 0.1)',
+  backgroundColor: undefined,
 },
 handButtonText: {
   fontSize: 15,
-  fontWeight: '600',
+  fontWeight: '700',
 },
 preferenceRow: {
     flexDirection: 'row',
